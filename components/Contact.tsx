@@ -1,244 +1,81 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { Send } from "lucide-react";
-import ContactCard from "./ContactCard";
-import {
-  FaGithub,
-  FaLinkedin,
-  FaEnvelope,
-  FaLocationDot,
-} from "react-icons/fa6";
+import { site } from "@/data/site";
+import { ArrowUpRight, LinkedInMark } from "./Icons";
+import { CopyEmail, LagosTime } from "./ContactActions";
 
 export default function Contact() {
   return (
-    <section
-      id="contact"
-      className="relative py-32"
-    >
-      {/* Glow */}
+    <section id="contact" aria-labelledby="contact-title" className="page pt-20 pb-20 md:pt-28 md:pb-28">
+      <div className="reveal grid gap-6 md:grid-cols-12 md:gap-8">
+        <p className="label flex items-center gap-3 self-start text-subtle md:col-span-3 md:pt-4">
+          <span className="text-accent">06</span>
+          <span aria-hidden="true" className="h-px w-6 bg-line-strong" />
+          <span>Contact</span>
+        </p>
 
-      <div className="absolute inset-0 -z-10">
-
-        <div className="absolute right-0 top-40 h-96 w-96 rounded-full bg-blue-500/10 blur-[150px]" />
-
-      </div>
-
-      <div className="mx-auto max-w-7xl px-6">
-
-        {/* Heading */}
-
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{ once: true }}
-          transition={{ duration: .7 }}
-          className="mx-auto max-w-3xl text-center"
-        >
-
-          <span className="rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm text-blue-400">
-
-            Contact
-
-          </span>
-
-          <h2 className="mt-6 text-5xl font-bold">
-
-            Let's Work Together
-
+        <div className="md:col-span-9">
+          <h2
+            id="contact-title"
+            className="max-w-[16ch] text-[clamp(2.25rem,1.45rem+3.4vw,4.25rem)] font-medium leading-[1.04] tracking-[-0.035em]"
+          >
+            If you need software that holds up, let&apos;s talk.
           </h2>
 
-          <p className="mt-6 text-lg leading-8 text-zinc-400">
-
-            Have a project, internship opportunity or freelance work?
-
-            I'd love to hear from you.
-
+          <p className="mt-8 max-w-[52ch] text-lg leading-relaxed text-muted">
+            I&apos;m open to internships, freelance projects and engineering
+            roles, especially backend and full-stack work. Email is the fastest
+            way to reach me.
           </p>
 
-        </motion.div>
-
-        <div className="mt-20 grid gap-14 lg:grid-cols-2">
-
-          {/* LEFT */}
-
-          <motion.div
-
-            initial={{
-              opacity:0,
-              x:-60
-            }}
-
-            whileInView={{
-              opacity:1,
-              x:0
-            }}
-
-            viewport={{
-              once:true
-            }}
-
-            transition={{
-              duration:.7
-            }}
-
-            className="space-y-6"
-
-          >
-
-            <ContactCard
-              icon={FaEnvelope}
-              title="Email"
-              value="ebelikeebitimi6678@gmail.com"
-              href="mailto:ebelikeebitimi6678@gmail.com"
-            />
-
-            <ContactCard
-              icon={FaGithub}
-              title="GitHub"
-              value="github.com/Ebitimiebelike"
-              href="https://github.com/Ebitimiebelike"
-            />
-
-            <ContactCard
-              icon={FaLinkedin}
-              title="LinkedIn"
-              value="Prosper Ebelike"
-              href="https://www.linkedin.com/in/ebitimiebelike-23469836a"
-            />
-
-            <ContactCard
-              icon={FaLocationDot}
-              title="Location"
-              value="Lagos, Nigeria"
-              href="#"
-            />
-
-          </motion.div>
-
-          {/* FORM */}
-
-          <motion.form
-
-            initial={{
-              opacity:0,
-              x:60
-            }}
-
-            whileInView={{
-              opacity:1,
-              x:0
-            }}
-
-            viewport={{
-              once:true
-            }}
-
-            transition={{
-              duration:.7
-            }}
-
-            className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl"
-
-          >
-
-            <div className="grid gap-6">
-
-              <div>
-
-                <label className="mb-2 block text-sm">
-
-                  Full Name
-
-                </label>
-
-                <input
-                  type="text"
-                  placeholder="Peter Drury"
-                  className="w-full rounded-xl border border-white/10 bg-transparent px-5 py-4 outline-none transition focus:border-blue-500"
-                />
-
-              </div>
-
-              <div>
-
-                <label className="mb-2 block text-sm">
-
-                  Email
-
-                </label>
-
-                <input
-                  type="email"
-                  placeholder="timi@email.com"
-                  className="w-full rounded-xl border border-white/10 bg-transparent px-5 py-4 outline-none transition focus:border-blue-500"
-                />
-
-              </div>
-
-              <div>
-
-                <label className="mb-2 block text-sm">
-
-                  Subject
-
-                </label>
-
-                <input
-                  type="text"
-                  placeholder="Let's build something..."
-                  className="w-full rounded-xl border border-white/10 bg-transparent px-5 py-4 outline-none transition focus:border-blue-500"
-                />
-
-              </div>
-
-              <div>
-
-                <label className="mb-2 block text-sm">
-
-                  Message
-
-                </label>
-
-                <textarea
-                  rows={6}
-                  placeholder="Tell me about your project..."
-                  className="w-full resize-none rounded-xl border border-white/10 bg-transparent px-5 py-4 outline-none transition focus:border-blue-500"
-                />
-
-              </div>
-
-              <motion.button
-
-                whileHover={{
-                  scale:1.03
-                }}
-
-                whileTap={{
-                  scale:.96
-                }}
-
-                className="flex items-center justify-center gap-3 rounded-xl bg-blue-600 px-6 py-4 font-semibold transition hover:bg-blue-500"
-
+          <div className="mt-12 border-y border-line py-8">
+            <p className="label text-subtle">Email</p>
+            <div className="mt-3 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+              <a
+                href={`mailto:${site.email}`}
+                className="break-all text-[clamp(1.25rem,0.95rem+1.5vw,2.25rem)] font-medium leading-tight tracking-[-0.02em] text-fg underline decoration-line-strong decoration-1 underline-offset-[0.2em] transition-colors hover:decoration-accent"
               >
-
-                Send Message
-
-                <Send size={18}/>
-
-              </motion.button>
-
+                {site.email}
+              </a>
+              <CopyEmail email={site.email} />
             </div>
+          </div>
 
-          </motion.form>
-
+          <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <ul className="flex flex-wrap gap-x-6 gap-y-3 text-[15px]">
+              <li>
+                <a
+                  href={site.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-fg transition-colors hover:text-accent"
+                >
+                  <LinkedInMark className="size-4" />
+                  LinkedIn<span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={site.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-fg transition-colors hover:text-accent"
+                >
+                  GitHub<span className="sr-only"> (opens in a new tab)</span>
+                  <ArrowUpRight className="size-3.5" />
+                </a>
+              </li>
+              <li>
+                <a href={site.resume} className="inline-flex items-center gap-1.5 text-fg transition-colors hover:text-accent">
+                  Resume (PDF)
+                  <ArrowUpRight className="size-3.5" />
+                </a>
+              </li>
+            </ul>
+            <p className="label text-subtle">
+              {site.location} <span className="text-line-strong">/</span> <LagosTime />
+            </p>
+          </div>
         </div>
-
       </div>
-
     </section>
   );
 }

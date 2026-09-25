@@ -1,206 +1,117 @@
-"use client";
+import { chapters, site } from "@/data/site";
+import { ArrowDown } from "./Icons";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
-import {
-  Mail,
-  ArrowRight,
-} from "lucide-react";
-import Counter from "./Counter";
-import { FaGithub, FaLinkedin } from "react-icons/fa6";
-import { useState } from "react";
-import ResumeModal from "./ResumeModal";
+const status = [
+  { term: "Now", detail: "Frontend Developer at Deexon Solutions" },
+  { term: "Building", detail: "Ping, real-time messaging on Spring Boot" },
+  { term: "Studying", detail: "Software Engineering at NIIT, focused on enterprise Java" },
+  { term: "Based in", detail: "Lagos, Nigeria (WAT, UTC+1)" },
+];
 
-
-export default function Hero() {
-
-    const [open, setOpen] = useState(false);
-
+// Each qualifier in the headline points at the project that proves it.
+function Proof({ href, label, children }: { href: string; label: string; children: string }) {
   return (
-    <section className="relative overflow-hidden">
-
-      {/* Background */}
-
-      <div className="absolute inset-0">
-
-        <div className="absolute left-20 top-40 h-[350px] w-[350px] rounded-full bg-blue-600/20 blur-[120px]" />
-
-        <div className="absolute right-10 bottom-20 h-[300px] w-[300px] rounded-full bg-cyan-500/10 blur-[120px]" />
-
-      </div>
-
-      <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col-reverse items-center justify-between gap-20 px-6 pt-32 lg:flex-row">
-
-        {/* LEFT */}
-
-        <motion.div
-          initial={{ opacity: 0, x: -80 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: .8 }}
-          className="max-w-2xl"
-        >
-
-          <span className="rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-sm text-blue-300">
-
-            Full-Stack Developer
-
-          </span>
-
-          <h1 className="mt-8 text-4xl
-md:text-5xl text-5xl font-black leading-tight md:text-5xl
-md:text-6xl
-lg:text-7xl">
-
-            Full-Stack Developer crafting
-
-            <span className="text-blue-500">
-
-              {" "}fast, scalable &
-beautiful{" "}
-
-            </span>
-
-            digital products.
-
-          </h1>
-
-          <p className="mt-8 text-xl leading-9 text-zinc-400">
-
-            Hi, I'm Prosper Ebelike.
-
-            I build scalable, responsive and user-focused
-            applications using Next.js, React, Java and Go.
-
-          </p>
-
-          <div className="mt-10 flex flex-wrap gap-5">
-
-            <a
-              href="#projects"
-              className="rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-500"
-            >
-              View Projects
-            </a>
-
-           <button
-  onClick={() => setOpen(true)}
-  className="flex items-center gap-2 rounded-xl border border-white/20 px-8 py-4 transition hover:border-blue-500"
->
-  Resume
-  <ArrowRight size={18} />
-</button>
-
-          </div>
-
-          <div className="mt-10 flex gap-6">
-
-            <a href="https://github.com/Ebitimiebelike" target="_blank" rel="noopener noreferrer">
-              <FaGithub size={24} />
-            </a>
-
-            <a href="https://www.linkedin.com/in/ebitimiebelike-23469836a" target="_blank" rel="noopener noreferrer">
-
-              <FaLinkedin size={24} />
-
-            </a>
-
-            <a href="mailto:ebelikeebitimi6678@gmail.com">
-
-              <Mail size={24} />
-            </a>
-
-          </div>
-
-        </motion.div>
-
-        {/* RIGHT */}
-
-        <motion.div
-
-          initial={{
-            opacity:0,
-            scale:.8
-          }}
-
-          animate={{
-            opacity:1,
-            scale:1
-          }}
-
-          transition={{
-            duration:1
-          }}
-
-          className="relative"
-
-        >
-
-          <motion.div
-
-            animate={{
-              y:[0,-10,0]
-            }}
-
-            transition={{
-              repeat:Infinity,
-              duration:4
-            }}
-
-            className="relative"
-
-          >
-
-            <div className="absolute inset-0 rounded-full bg-blue-500 blur-[100px] opacity-30"/>
-
-            <div className="relative w-[280px]
-h-[280px]
-
-md:w-[380px]
-md:h-[380px]
-
-lg:w-[430px]
-lg:h-[430px] overflow-hidden rounded-full border-4 border-blue-500 shadow-[0_0_60px_rgba(59,130,246,.45)]">
-
-              <Image
-  src="/images/profile.png"
-  alt="Prosper"
-  fill
-  loading="eager"
-  sizes="(max-width: 768px) 280px, (max-width: 1024px) 380px, 430px"
-  className="object-cover"
-/>
-
-            </div>
-
-            {
+    <a
+      href={href}
+      className="underline decoration-accent/60 decoration-1 underline-offset-[0.14em] transition-colors hover:decoration-accent"
+    >
+      {children}
+      <span className="sr-only"> ({label})</span>
+    </a>
+  );
 }
 
-          </motion.div>
+export default function Hero() {
+  return (
+    <section
+      id="top"
+      aria-labelledby="hero-title"
+      className="page flex min-h-[100svh] flex-col justify-between pt-28 pb-10 md:pt-40"
+    >
+      <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-8">
+          <p className="intro-in label text-subtle" style={{ "--i": 0 } as React.CSSProperties}>
+            {site.name} <span className="text-line-strong">/</span> {site.role}
+          </p>
 
-        </motion.div>
+          <h1
+            id="hero-title"
+            className="mt-6 max-w-[19ch] text-[clamp(2.25rem,1.45rem+3.4vw,4.25rem)] font-medium leading-[1.04] tracking-[-0.035em]"
+          >
+            I build software that holds up{" "}
+            <span className="text-muted">
+              <Proof href="#ping" label="see the Ping case study">in real time</Proof>,{" "}
+              <Proof href="#learntogether" label="see the LearnTogether case study">offline</Proof>, and{" "}
+              <Proof href="#solarhouse" label="see the SolarHouse NG case study">in production</Proof>.
+            </span>
+          </h1>
 
+          <p
+            className="intro-in mt-8 max-w-[52ch] text-lg leading-relaxed text-muted md:text-xl md:leading-relaxed"
+            style={{ "--i": 2 } as React.CSSProperties}
+          >
+            I&apos;m Ebitimi, a full-stack developer who leans backend. I design
+            systems in <span className="text-fg">Java and Spring Boot</span>, and
+            build the <span className="text-fg">React and Next.js</span>{" "}
+            interfaces that sit on top of them.
+          </p>
+
+          <div
+            className="intro-in mt-10 flex flex-wrap items-center gap-3"
+            style={{ "--i": 3 } as React.CSSProperties}
+          >
+            <a
+              href="#work"
+              className="group inline-flex h-12 items-center gap-2 rounded-md bg-fg px-6 text-[15px] font-medium text-bg transition-colors hover:bg-white"
+            >
+              Explore my work
+              <ArrowDown className="size-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex h-12 items-center rounded-md border border-line-strong px-6 text-[15px] font-medium text-fg transition-colors hover:border-muted"
+            >
+              Let&apos;s talk
+            </a>
+          </div>
+        </div>
+
+        <aside
+          aria-label="Current status"
+          className="intro-in self-end lg:col-span-4"
+          style={{ "--i": 4 } as React.CSSProperties}
+        >
+          <p className="label flex items-center gap-2 text-subtle">
+            <span aria-hidden="true" className="size-1.5 rounded-full bg-accent" />
+            Status
+          </p>
+          <dl className="mt-4 divide-y divide-line border-y border-line">
+            {status.map((row) => (
+              <div key={row.term} className="grid grid-cols-[5.5rem_1fr] gap-3 py-3 text-[15px] leading-snug">
+                <dt className="label pt-0.5 text-subtle">{row.term}</dt>
+                <dd className="text-fg/90">{row.detail}</dd>
+              </div>
+            ))}
+          </dl>
+        </aside>
       </div>
 
-      <div className="mt-16 grid grid-cols-3 gap-10">
-
-<Counter end={4} label="Featured Projects" />
-<Counter end={2} label="Years Learning" />
-<Counter end={15} label="Technologies" />
-</div>
-    <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-400">
-  Press
-  <kbd className="rounded bg-zinc-800 px-2 py-1 text-xs">Ctrl</kbd>
-  +
-  <kbd className="rounded bg-zinc-800 px-2 py-1 text-xs">K</kbd>
-  for quick navigation
-</div>
-
-<ResumeModal
-  open={open}
-  onClose={() => setOpen(false)}
-/>
+      <nav
+        aria-label="Chapters on this page"
+        className="intro-in mt-20 border-t border-line pt-5"
+        style={{ "--i": 5 } as React.CSSProperties}
+      >
+        <ol className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3 lg:grid-cols-6">
+          {chapters.map((c) => (
+            <li key={c.id}>
+              <a href={`#${c.id}`} className="group label flex gap-2 text-subtle transition-colors hover:text-fg">
+                <span className="text-accent/80 group-hover:text-accent">{c.number}</span>
+                {c.label}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
     </section>
-
   );
-
 }

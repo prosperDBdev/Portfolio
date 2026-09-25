@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ebitimi Ebelike — portfolio
 
-## Getting Started
-
-First, run the development server:
+Single-page portfolio built with Next.js 16 (App Router), React 19 and Tailwind CSS v4.
+The only runtime dependencies are `next`, `react` and `react-dom`.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # local development
+npm run build   # production build (fully static)
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The page is a sequence of chapters: Hero → Introduction → Selected work → How I think → Stack → Track record → Contact.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| What you want to change | Where |
+| --- | --- |
+| Name, email, links, resume path, chapter order | `data/site.ts` |
+| Case studies and smaller projects | `data/projects.ts` |
+| Engineering principles ("How I think") | `data/principles.ts` |
+| Stack, and which project uses each tool | `data/skills.ts` |
+| Colours, type, motion, diagram layout | `app/globals.css` |
+| Metadata and fonts | `app/layout.tsx` |
+| Social share image | `app/opengraph-image.tsx` |
 
-## Learn More
+Content lives in `data/`, so most updates never touch a component.
 
-To learn more about Next.js, take a look at the following resources:
+- **Links:** a project's `links.demo` / `links.source` render automatically once added.
+- **Case study depth:** `hardPart` and `learned` are optional; each section only appears when filled in.
+- **Stack:** a tool with an empty `projects` list shows as "in my toolkit, not shown here".
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Motion and performance
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Scroll reveals and the scroll progress bar use CSS scroll-driven animations. Browsers without support just show the content.
+- Everything respects `prefers-reduced-motion`.
+- Client JavaScript is limited to the header's section tracking, the stack filter, the copy-email button and the Lagos clock.

@@ -1,55 +1,47 @@
-import Navbar from "@/components/Navbar";
+import SiteHeader from "@/components/SiteHeader";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Skills from "@/components/Skills";
-import Projects from "@/components/Projects";
+import Intro from "@/components/Intro";
+import Work from "@/components/Work";
+import Thinking from "@/components/Thinking";
+import Stack from "@/components/Stack";
+import Record from "@/components/Record";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import CTA from "@/components/CTA";
-import BackToTop from "@/components/BackToTop";
-import ScrollProgress from "@/components/ScrollProgress";
-import LoadingScreen from "@/components/LoadingScreen";
-import AnimatedGrid from "@/components/AnimatedGrid";
-import MouseGlow from "@/components/MouseGlow";
-import TechArsenal from "@/components/TechArsenal";
-import CommandMenu from "@/components/CommandMenu";
-import CustomCursor from "@/components/CustomCursor";
-import SmoothScroll from "@/components/SmoothScroll";
+import { site } from "@/data/site";
+
+// Structured data so search engines can connect the name, role and profiles.
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.fullName,
+  alternateName: site.name,
+  url: site.url,
+  email: `mailto:${site.email}`,
+  jobTitle: `${site.role} (${site.focus})`,
+  worksFor: { "@type": "Organization", name: "Deexon Solutions" },
+  address: { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
+  sameAs: [site.github, site.linkedin],
+  knowsAbout: ["Java", "Spring Boot", "WebSocket", "REST APIs", "React", "Next.js", "TypeScript", "MongoDB", "PostgreSQL"],
+};
 
 export default function Home() {
   return (
-    <main className="overflow-x-hidden bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300">
-      <LoadingScreen />
-
-      <CustomCursor />
-
-      <CommandMenu />
-
-      <AnimatedGrid />
-
-      <MouseGlow />
-    
-      <SmoothScroll />
-
-      <ScrollProgress />
-      
-      <Navbar />
-
-      <Hero />
-
-      <About />
-
-      <TechArsenal/>
-
-      <Projects />
-
-      <CTA />
-
-      <Contact />
-
+    <>
+      <SiteHeader />
+      <main id="main">
+        <Hero />
+        <Intro />
+        <Work />
+        <Thinking />
+        <Stack />
+        <Record />
+        <Contact />
+      </main>
       <Footer />
-
-      <BackToTop />
-    </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
+      />
+    </>
   );
 }

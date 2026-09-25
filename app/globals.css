@@ -1,29 +1,314 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   Design tokens
+   One dark surface, a neutral grey ramp, and a single accent taken
+   from the EB mark. Everything else is typography and spacing.
+------------------------------------------------------------------- */
+@theme {
+  --color-bg: #0a0a0b;
+  --color-surface: #111113;
+  --color-raised: #17171a;
+  --color-line: #222226;
+  --color-line-strong: #34343a;
+  --color-fg: #ededef;
+  --color-muted: #a6a6ad;
+  --color-subtle: #85858d;
+  --color-accent: #4fd1e0;
+  --color-accent-ink: #062a2f;
+
+  --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+:root {
+  color-scheme: dark;
+  interpolate-size: allow-keywords;
+}
+
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-/* Light Theme */
-:root {
-  --background: #ffffff;
-  --foreground: #111827;
-}
-
-/* Dark Theme */
-html.dark {
-  --background: #050816;
-  --foreground: #f8fafc;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Keep anchored sections clear of the fixed header. */
+section[id],
+article[id] {
+  scroll-margin-top: 5rem;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------------
+   Reusable pieces
+------------------------------------------------------------------- */
+@utility page {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Small mono label used for chapter numbers, metadata and tags. */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Inline text link with a quiet underline that firms up on hover. */
+@utility link {
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-line-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color 0.2s, color 0.2s;
+
+  &:hover {
+    text-decoration-color: var(--color-accent);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Motion
+   Progressive enhancement only: content is fully visible without it,
+   and nothing runs for people who prefer reduced motion.
+------------------------------------------------------------------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes travel-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(100cqw - 5px));
+  }
+}
+
+@keyframes travel-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(100cqh - 5px));
+  }
+}
+
+.scroll-progress {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Hero content settles in once on load. Short, and never blocks input. */
+  .intro-in {
+    animation: rise 0.6s var(--ease-out-soft) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .scroll-progress {
+      display: block;
+      transform-origin: 0 50%;
+      animation: grow linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+
+/* Smoothly open <details> where the browser supports it. */
+@supports selector(::details-content) {
+  details::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      block-size 0.35s var(--ease-out-soft),
+      content-visibility 0.35s allow-discrete;
+  }
+
+  details[open]::details-content {
+    block-size: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    details::details-content {
+      transition: none;
+    }
+  }
+}
+
+summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* ------------------------------------------------------------------
+   System diagrams (case studies)
+   Stacked vertically on small screens, left-to-right from md up.
+------------------------------------------------------------------- */
+.flow {
+  display: flex;
+  flex-direction: column;
+}
+
+/* A connector holds one or more parallel "lanes" (e.g. REST and WebSocket).
+   Mobile: one shared vertical line, lane labels beside it.
+   Desktop: each lane gets its own horizontal line. */
+.connector {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 4.5rem;
+  padding: 1rem 0 1rem 2.25rem;
+}
+
+.connector-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 1.25rem;
+  width: 1px;
+  background: var(--color-line-strong);
+  container-type: size;
+}
+
+.lane {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.lane-line {
+  display: none;
+}
+
+.packet {
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 22%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .connector-line .packet {
+    animation: travel-y 2.4s ease-in-out infinite alternate;
+  }
+}
+
+@media (width >= 48rem) {
+  .flow {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .connector {
+    flex: 1 1 0;
+    min-width: 6.5rem;
+    min-height: 0;
+    padding: 0.5rem 0.75rem;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  .connector-line {
+    display: none;
+  }
+
+  .lane-line {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 1px;
+    margin-block: 0.4rem;
+    background: var(--color-line-strong);
+    container-type: inline-size;
+  }
+
+  .lane-line .packet {
+    top: -2px;
+    left: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lane-line .packet {
+      animation: travel-x 2.4s ease-in-out infinite alternate;
+    }
+  }
 }
