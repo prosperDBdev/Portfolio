@@ -4,7 +4,7 @@ export const site = {
   role: "Full-Stack Developer",
   focus: "Java & Spring Boot",
   location: "Lagos, Nigeria",
-  url: "https://timidbdev.vercel.app",
+  url: "https://ebitimi.dev",
   email: "ebelikeebitimi6678@gmail.com",
   github: "https://github.com/Ebitimiebelike",
   linkedin: "https://www.linkedin.com/in/ebitimi-ebelike-23469836a",
